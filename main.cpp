@@ -56,64 +56,81 @@ Create a branch named Part1
 #include <string>
 struct T
 {
-    T(<#type name#> v, const char* <#variable name#>)   //1
-    //2
-    //3
+    T(float v, const char* w) : video(v), waveForm(w) {}  //1
+    float video; //2
+    std::string waveForm; //3
 };
 
-struct <#structName1#>                                //4
+struct CompareCalc                                //4
 {
-    <#type name#> compare(<#type name#> a, <#type name#> b) //5
+    T* compare(T* a, T* b) //5
     {
-        if( a->value < b->value ) return a;
-        if( a->value > b->value ) return b;
+        if( a->video < b->video ) return a;
+        if( a->video > b->video ) return b;
         return nullptr;
     }
 };
 
 struct U
 {
-    float <#name1#> { 0 }, <#name2#> { 0 };
-    <#returnType#> <#memberFunction#>(<#type name#>* <#updatedValue#>)      //12
+    float x { 0 }, y { 0 };
+    float nValue(float* outPut)      //12
     {
-        
+        x = *outPut;
+
+        if(x >= y)
+        {
+            x += x * y;
+        }
+        else
+        {
+            y -= x * y;
+        }
+
+        return x *= y;
     }
 };
 
-struct <#structname2#>
+struct Z
 {
-    static <#returntype#> <#staticFunctionA#>(U* that, <#type name#>* <#updatedValue#> )        //10
+    static float test(U* that, float* uVal )        //10
     {
-        std::cout << "U's <#name1#> value: " << that-><#name1#> << std::endl;
-        that-><#name1#> = <#updatedValue#>;
-        std::cout << "U's <#name1#> updated value: " << that-><#name1#> << std::endl;
-        while( std::abs(that-><#name2#> - that-><#name1#>) > 0.001f )
+        std::cout << "U's x value: " << that->x << std::endl;
+        that->x = *uVal;
+        std::cout << "U's x updated value: " << that->x << std::endl;
+        while( std::abs(that->y - that->x) > 0.001f )
         {
-            /*
-             write something that makes the distance between that-><#name2#> and that-><#name1#> get smaller
-             */
-            that-><#name2#> += ;
+            if(that->x > that->y)
+            {
+                that->x *= 5;
+            }
+            else
+            {
+                that->x -= 5;
+            }
+    
+            that->y += 75;
         }
-        std::cout << "U's <#name2#> updated value: " << that-><#name2#> << std::endl;
-        return that-><#name2#> * that-><#name1#>;
+        std::cout << "U's y updated value: " << that->y << std::endl;
+        return that->y * that->x;
     }
 };
         
 int main()
 {
-    T <#name1#>( , );                                             //6
-    T <#name2#>( , );                                             //6
+    T a(1.0, "sine");                                             //6
+    T b(3.0 , "saw");                                             //6
     
-    <#structName1#> f;                                            //7
-    auto* smaller = f.compare( , );                              //8
-    std::cout << "the smaller one is << " << smaller->name << std::endl; //9
+    CompareCalc f;                                            //7
+    auto* smaller = f.compare(&a , &b);                              //8
+    std::cout << "the smaller one is << " << smaller->waveForm << std::endl; //9
     
-    U <#name3#>;
+    U c;
     float updatedValue = 5.f;
-    std::cout << "[static func] <#name3#>'s multiplied values: " << <#structname2#>::<#staticFunctionA#>( , ) << std::endl;                  //11
+    std::cout << "[static func] c's multiplied values: " << Z::test(&c, &updatedValue) << std::endl;                  //11
     
-    U <#name4#>;
-    std::cout << "[member func] <#name4#>'s multiplied values: " << <#name4#>.<#memberFunction#>( &updatedValue ) << std::endl;
+    U d;
+    std::cout << "[member func] d's multiplied values: " << d.nValue( &updatedValue ) << std::endl;
 }
 
         
@@ -123,3 +140,4 @@ int main()
         
         
         
+
